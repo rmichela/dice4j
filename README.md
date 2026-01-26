@@ -322,4 +322,4 @@ mvn spotless:apply
 
 ## License
 
-[License information here]
+[MIT License](https://opensource.org/license/mit)
