@@ -46,11 +46,11 @@ class UnaryOperatorTest {
     }
 
     @Test
-    void testGatherReturnsConstantDie() {
+    void testGatherDiceReturnsConstantDie() {
         RolledDie die = new RolledDie(6, 4);
         UnaryOperator operator = new UnaryOperator(UnaryOperation.NEGATE, die);
 
-        var gathered = operator.gather();
+        var gathered = operator.gatherDice();
         assertThat(gathered).hasSize(1);
         RolledDie result = gathered.get(0);
         assertThat(result.isConstant()).isTrue();

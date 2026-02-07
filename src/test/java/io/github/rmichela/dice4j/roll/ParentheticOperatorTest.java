@@ -26,21 +26,21 @@ class ParentheticOperatorTest {
     }
 
     @Test
-    void testGatherDelegates() {
+    void testGatherDiceDelegates() {
         RolledDie die1 = new RolledDie(6, 3);
         RolledDie die2 = new RolledDie(6, 4);
         RolledPool pool = new RolledPool(die1, die2);
         ParentheticOperator operator = new ParentheticOperator(pool);
 
-        assertThat(operator.gather()).containsExactly(die1, die2);
+        assertThat(operator.gatherDice()).containsExactly(die1, die2);
     }
 
     @Test
-    void testGatherWithSingleDie() {
+    void testGatherDiceWithSingleDie() {
         RolledDie die = new RolledDie(6, 5);
         ParentheticOperator operator = new ParentheticOperator(die);
 
-        assertThat(operator.gather()).containsExactly(die);
+        assertThat(operator.gatherDice()).containsExactly(die);
     }
 
     @Test
@@ -102,18 +102,18 @@ class ParentheticOperatorTest {
     }
 
     @Test
-    void testGatherMaintainsOrder() {
+    void testGatherDiceMaintainsOrder() {
         RolledDie die1 = new RolledDie(6, 1);
         RolledDie die2 = new RolledDie(6, 2);
         RolledDie die3 = new RolledDie(6, 3);
         RolledPool pool = new RolledPool(die1, die2, die3);
         ParentheticOperator operator = new ParentheticOperator(pool);
 
-        assertThat(operator.gather()).containsExactly(die1, die2, die3);
+        assertThat(operator.gatherDice()).containsExactly(die1, die2, die3);
     }
 
     @Test
-    void testGatherWithNestedPools() {
+    void testGatherDiceWithNestedPools() {
         RolledDie die1 = new RolledDie(6, 1);
         RolledDie die2 = new RolledDie(6, 2);
         RolledDie die3 = new RolledDie(6, 3);
@@ -122,6 +122,6 @@ class ParentheticOperatorTest {
         RolledPool outerPool = new RolledPool(die1, innerPool);
         ParentheticOperator operator = new ParentheticOperator(outerPool);
 
-        assertThat(operator.gather()).containsExactly(die1, die2, die3);
+        assertThat(operator.gatherDice()).containsExactly(die1, die2, die3);
     }
 }

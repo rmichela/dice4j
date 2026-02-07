@@ -24,7 +24,7 @@ public class ExplodeModifier extends AbstractModifier {
     public Rolled roll(DieRoller random) {
         var rolled = inner.roll(random);
         // Seed the rolled queue with any die primed to explode
-        Queue<RolledDie> explosionQueue = new ArrayDeque<>(rolled.gather().stream().filter(RolledDie::isMax).toList());
+        Queue<RolledDie> explosionQueue = new ArrayDeque<>(rolled.gatherDice().stream().filter(RolledDie::isMax).toList());
         int remainingRolls = qty;
         while (remainingRolls > 0 && !explosionQueue.isEmpty()) {
             var explodingDie = explosionQueue.remove();

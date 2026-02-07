@@ -20,7 +20,7 @@ class KeepDropModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(1, 3, 5, 2);
         Rolled rolled = modifier.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
         assertThat(dice).hasSize(4);
 
         assertThat(dice.get(0).isKept()).isFalse(); // 1
@@ -52,7 +52,7 @@ class KeepDropModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(5, 2, 4, 1);
         Rolled rolled = modifier.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
         assertThat(dice).hasSize(4);
 
         assertThat(dice.get(0).isKept()).isFalse(); // 5
@@ -84,7 +84,7 @@ class KeepDropModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(1, 6, 5, 2);
         Rolled rolled = modifier.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
         assertThat(dice).hasSize(4);
 
         assertThat(dice.get(0).isKept()).isTrue(); // 1
@@ -104,7 +104,7 @@ class KeepDropModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(1, 6, 5, 2);
         Rolled rolled = modifier.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
         assertThat(dice).hasSize(4);
 
         assertThat(dice.get(0).isKept()).isFalse(); // 1
@@ -125,7 +125,7 @@ class KeepDropModifierTest {
         Rolled rolled = modifier.roll(roller);
 
         assertThat(rolled.total()).isEqualTo(15);
-        assertThat(rolled.gather().get(0).isKept()).isTrue();
+        assertThat(rolled.gatherDice().get(0).isKept()).isTrue();
     }
 
     @Test
@@ -138,7 +138,7 @@ class KeepDropModifierTest {
         Rolled rolled = modifier.roll(roller);
 
         assertThat(rolled.total()).isEqualTo(12);
-        assertThat(rolled.gather()).allMatch(RolledDie::isKept);
+        assertThat(rolled.gatherDice()).allMatch(RolledDie::isKept);
     }
 
     @Test
@@ -151,7 +151,7 @@ class KeepDropModifierTest {
         Rolled rolled = modifier.roll(roller);
 
         assertThat(rolled.total()).isEqualTo(0);
-        assertThat(rolled.gather()).noneMatch(RolledDie::isKept);
+        assertThat(rolled.gatherDice()).noneMatch(RolledDie::isKept);
     }
 
     @Test

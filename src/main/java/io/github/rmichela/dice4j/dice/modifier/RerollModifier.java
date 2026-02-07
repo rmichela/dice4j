@@ -25,7 +25,7 @@ public class RerollModifier extends AbstractModifier {
         boolean rerolled;
         do {
             rerolled = false;
-            for (var die : rolled.gather()) {
+            for (var die : rolled.gatherDice()) {
                 if (die.isKept() && operation.test(die.getValue(), value)) {
                     die.drop();
                     var newDie = new RolledDie(die.getSides(), random.nextRoll(die.getSides()));

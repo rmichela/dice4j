@@ -103,9 +103,9 @@ class RolledDieTest {
     }
 
     @Test
-    void testGather() {
+    void testGatherDice() {
         RolledDie die = new RolledDie(6, 4);
-        assertThat(die.gather()).containsExactly(die);
+        assertThat(die.gatherDice()).containsExactly(die);
     }
 
     @Test
@@ -175,5 +175,36 @@ class RolledDieTest {
         die2.drop();
 
         assertThat(die1).isNotEqualTo(die2);
+    }
+
+    @Test
+    void testGatherPools() {
+        RolledDie die = new RolledDie(6, 4);
+        var pools = die.gatherPools();
+
+        assertThat(pools).hasSize(1);
+        assertThat(pools.get(0).gatherDice()).containsExactly(die);
+        assertThat(pools.get(0).getModifiedBy()).isNull();
+    }
+
+    @Test
+    void testGatherPoolsForConstantDie() {
+        RolledDie die = RolledDie.constant(10);
+        var pools = die.gatherPools();
+
+        assertThat(pools).hasSize(1);
+        assertThat(pools.get(0).gatherDice()).containsExactly(die);
+        assertThat(pools.get(0).getModifiedBy()).isNull();
+    }
+
+    @Test
+    void testGatherPoolsForDroppedDie() {
+        RolledDie die = new RolledDie(6, 3);
+        die.drop();
+        var pools = die.gatherPools();
+
+        assertThat(pools).hasSize(1);
+        assertThat(pools.get(0).gatherDice()).containsExactly(die);
+        assertThat(pools.get(0).getModifiedBy()).isNull();
     }
 }

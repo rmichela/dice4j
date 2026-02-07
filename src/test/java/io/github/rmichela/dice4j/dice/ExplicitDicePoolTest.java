@@ -72,7 +72,7 @@ class ExplicitDicePoolTest {
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
         RolledPool rolledPool = (RolledPool) rolled;
-        List<RolledDie> dice = rolledPool.gather();
+        List<RolledDie> dice = rolledPool.gatherDice();
         assertThat(dice).hasSize(3);
         assertThat(dice.get(0).getValue()).isEqualTo(3);
         assertThat(dice.get(1).getValue()).isEqualTo(5);
@@ -89,7 +89,7 @@ class ExplicitDicePoolTest {
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
         RolledPool rolledPool = (RolledPool) rolled;
-        List<RolledDie> dice = rolledPool.gather();
+        List<RolledDie> dice = rolledPool.gatherDice();
         assertThat(dice).hasSize(3);
         assertThat(dice.get(0).getValue()).isEqualTo(2);
         assertThat(dice.get(1).getValue()).isEqualTo(10);
@@ -105,7 +105,7 @@ class ExplicitDicePoolTest {
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
         RolledPool rolledPool = (RolledPool) rolled;
-        assertThat(rolledPool.gather()).isEmpty();
+        assertThat(rolledPool.gatherDice()).isEmpty();
     }
 
     @Test
@@ -117,7 +117,7 @@ class ExplicitDicePoolTest {
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
         RolledPool rolledPool = (RolledPool) rolled;
-        List<RolledDie> dice = rolledPool.gather();
+        List<RolledDie> dice = rolledPool.gatherDice();
         assertThat(dice).hasSize(2);
         assertThat(dice).allMatch(die -> die.getValue() >= 1 && die.getValue() <= 6);
     }
@@ -180,7 +180,7 @@ class ExplicitDicePoolTest {
         Rolled secondRoll = rolledPool.getRolls().get(1);
         assertThat(secondRoll).isInstanceOf(RolledPool.class);
         RolledPool nestedPool = (RolledPool) secondRoll;
-        List<RolledDie> nestedDice = nestedPool.gather();
+        List<RolledDie> nestedDice = nestedPool.gatherDice();
         assertThat(nestedDice).hasSize(2);
         assertThat(nestedDice.get(0).getValue()).isEqualTo(3);
         assertThat(nestedDice.get(1).getValue()).isEqualTo(5);

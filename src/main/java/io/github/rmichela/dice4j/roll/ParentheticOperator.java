@@ -8,8 +8,13 @@ public class ParentheticOperator extends Rolled {
     private final Rolled inner;
 
     @Override
-    public List<RolledDie> gather() {
-        return inner.gather();
+    public List<RolledDie> gatherDice() {
+        return inner.gatherDice();
+    }
+
+    @Override
+    public List<RolledPool> gatherPools() {
+        return inner.gatherPools();
     }
 
     @Override

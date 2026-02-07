@@ -23,7 +23,7 @@ class MinMaxModifierTest {
         Rolled rolled = modifier.roll(roller);
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
 
         assertThat(dice).hasSize(2);
         assertThat(dice.get(0).getValue()).isEqualTo(2);
@@ -45,7 +45,7 @@ class MinMaxModifierTest {
         Rolled rolled = modifier.roll(roller);
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
 
         assertThat(dice).hasSize(2);
         assertThat(dice.get(0).getValue()).isEqualTo(5);
@@ -66,7 +66,7 @@ class MinMaxModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(4);
         Rolled rolled = modifier.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
         assertThat(dice).hasSize(1);
         assertThat(dice.get(0).getValue()).isEqualTo(4);
         assertThat(dice.get(0).isKept()).isTrue();
@@ -83,7 +83,7 @@ class MinMaxModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(3);
         Rolled rolled = modifier.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
         assertThat(dice).hasSize(1);
         assertThat(dice.get(0).getValue()).isEqualTo(3);
         assertThat(dice.get(0).isKept()).isTrue();
@@ -131,7 +131,7 @@ class MinMaxModifierTest {
         Rolled rolled = modifier.roll(roller);
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
 
         assertThat(dice).hasSize(6); // 4 original + 2 replaced
         assertThat(rolled.total()).isEqualTo(15); // 3 + 3 + 4 + 5
@@ -148,7 +148,7 @@ class MinMaxModifierTest {
         Rolled rolled = modifier.roll(roller);
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
 
         assertThat(dice).hasSize(6); // 4 original + 2 replaced
         assertThat(rolled.total()).isEqualTo(13); // 2 + 3 + 4 + 4
@@ -166,7 +166,7 @@ class MinMaxModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(1, 3, 5, 9, 10);
         Rolled rolled = max.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
         assertThat(dice).hasSize(8); // 5 original + 3 replaced
         assertThat(rolled.total()).isEqualTo(27); // 3 + 3 + 5 + 8 + 8
     }
@@ -181,7 +181,7 @@ class MinMaxModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(3);
         Rolled rolled = modifier.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
         assertThat(dice).hasSize(1); // No replacement needed
         assertThat(rolled.total()).isEqualTo(3);
     }
@@ -196,7 +196,7 @@ class MinMaxModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(4);
         Rolled rolled = modifier.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
         assertThat(dice).hasSize(1); // No replacement needed
         assertThat(rolled.total()).isEqualTo(4);
     }
@@ -239,7 +239,7 @@ class MinMaxModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(2);
         Rolled rolled = max.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
         assertThat(dice).hasSize(2);
         assertThat(dice.get(0).getSides()).isEqualTo(20);
         assertThat(dice.get(1).getSides()).isEqualTo(20);
@@ -259,7 +259,7 @@ class MinMaxModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(1, 2, 5, 6);
         Rolled rolled = minMax.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
         assertThat(dice).hasSize(4); // No replacements because low dice were already dropped
         assertThat(rolled.total()).isEqualTo(11); // 5 + 6
     }
@@ -318,7 +318,7 @@ class MinMaxModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(2, 3, 4, 5);
         Rolled rolled = max.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
         assertThat(dice).hasSize(4); // No replacements needed
         assertThat(rolled.total()).isEqualTo(14); // 2 + 3 + 4 + 5
     }

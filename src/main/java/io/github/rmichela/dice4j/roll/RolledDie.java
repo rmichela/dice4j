@@ -52,8 +52,13 @@ public class RolledDie extends Rolled implements Comparable<RolledDie> {
     }
 
     @Override
-    public List<RolledDie> gather() {
+    public List<RolledDie> gatherDice() {
         return List.of(this);
+    }
+
+    @Override
+    public List<RolledPool> gatherPools() {
+        return List.of(new RolledPool(this));
     }
 
     @Override

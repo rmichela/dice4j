@@ -10,8 +10,13 @@ public class UnaryOperator extends Rolled {
     private final Rolled right;
 
     @Override
-    public List<RolledDie> gather() {
+    public List<RolledDie> gatherDice() {
         return List.of(RolledDie.constant(op.apply(right.total())));
+    }
+
+    @Override
+    public List<RolledPool> gatherPools() {
+        return right.gatherPools();
     }
 
     @Override

@@ -24,7 +24,7 @@ class ExplodeModifierTest {
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
         RolledPool rolledPool = (RolledPool) rolled;
-        List<RolledDie> dice = rolledPool.gather();
+        List<RolledDie> dice = rolledPool.gatherDice();
 
         assertThat(dice).hasSize(2);
         assertThat(dice.get(0).getValue()).isEqualTo(6);
@@ -45,7 +45,7 @@ class ExplodeModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(3);
         Rolled rolled = modifier.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
 
         assertThat(dice).hasSize(1);
         assertThat(dice.get(0).getValue()).isEqualTo(3);
@@ -63,7 +63,7 @@ class ExplodeModifierTest {
         Rolled rolled = modifier.roll(roller);
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
 
         assertThat(dice).hasSize(4);
         assertThat(dice.get(0).getValue()).isEqualTo(6);
@@ -85,7 +85,7 @@ class ExplodeModifierTest {
         Rolled rolled = modifier.roll(roller);
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
 
         assertThat(dice).hasSize(3); // Original + 2 explosions
         assertThat(dice.get(0).getValue()).isEqualTo(6);
@@ -106,7 +106,7 @@ class ExplodeModifierTest {
         Rolled rolled = modifier.roll(roller);
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
 
         assertThat(dice).hasSize(5); // 3 original + 2 exploded
         assertThat(rolled.total()).isEqualTo(24); // 6 + 3 + 6 + 4 + 5
@@ -123,7 +123,7 @@ class ExplodeModifierTest {
         Rolled rolled = modifier.roll(roller);
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
 
         assertThat(dice).hasSize(4); // 2 original + 2 explosions
         assertThat(rolled.total()).isEqualTo(17); // 6 + 2 + 6 + 3
@@ -140,7 +140,7 @@ class ExplodeModifierTest {
         Rolled rolled = modifier.roll(roller);
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
 
         assertThat(dice).hasSize(4); // No explosions
         assertThat(rolled.total()).isEqualTo(10); // 1 + 2 + 3 + 4
@@ -157,7 +157,7 @@ class ExplodeModifierTest {
         Rolled rolled = modifier.roll(roller);
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
 
         assertThat(dice).hasSize(2);
         assertThat(dice.get(0).getValue()).isEqualTo(20);
@@ -175,7 +175,7 @@ class ExplodeModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(20, 20, 10);
         Rolled rolled = modifier.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
         assertThat(dice).hasSize(3);
         assertThat(dice.get(0).getSides()).isEqualTo(20);
         assertThat(dice.get(1).getSides()).isEqualTo(20);
@@ -192,7 +192,7 @@ class ExplodeModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(6, 6, 6, 2, 3, 4);
         Rolled rolled = modifier.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
         assertThat(dice).hasSize(6); // 3 original + 3 explosions
         assertThat(rolled.total()).isEqualTo(27); // 6 + 6 + 6 + 2 + 3 + 4
     }
@@ -207,7 +207,7 @@ class ExplodeModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(6);
         Rolled rolled = modifier.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
         assertThat(dice).hasSize(1); // No explosions
         assertThat(rolled.total()).isEqualTo(6);
     }
@@ -245,7 +245,7 @@ class ExplodeModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(1, 3, 6, 4);
         Rolled rolled = explode.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
         assertThat(dice).hasSize(4); // 3 original + 1 explosion
         assertThat(rolled.total()).isEqualTo(13); // 3 + 6 + 4 (1 is dropped)
     }
@@ -260,7 +260,7 @@ class ExplodeModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(6, 6, 6, 6, 1, 1);
         Rolled rolled = modifier.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
         assertThat(dice).hasSize(6); // 2 original + 4 explosions
         assertThat(rolled.total()).isEqualTo(26); // 6+6+6+6+1+1
     }

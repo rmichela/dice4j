@@ -54,7 +54,7 @@ class DicePoolTest {
         Rolled rolled = pool.roll(roller);
 
         RolledPool rolledPool = (RolledPool) rolled;
-        assertThat(rolledPool.gather()).hasSize(3);
+        assertThat(rolledPool.gatherDice()).hasSize(3);
     }
 
     @Test

@@ -49,7 +49,7 @@ class ImplicitDicePoolTest {
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
         RolledPool rolledPool = (RolledPool) rolled;
-        List<RolledDie> dice = rolledPool.gather();
+        List<RolledDie> dice = rolledPool.gatherDice();
         assertThat(dice).hasSize(3);
         assertThat(dice.get(0).getValue()).isEqualTo(1);
         assertThat(dice.get(1).getValue()).isEqualTo(3);
@@ -65,7 +65,7 @@ class ImplicitDicePoolTest {
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
         RolledPool rolledPool = (RolledPool) rolled;
-        assertThat(rolledPool.gather()).extracting(RolledDie::getValue).containsExactly(2, 7, 4, 9);
+        assertThat(rolledPool.gatherDice()).extracting(RolledDie::getValue).containsExactly(2, 7, 4, 9);
     }
 
     @Test
@@ -77,7 +77,7 @@ class ImplicitDicePoolTest {
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
         RolledPool rolledPool = (RolledPool) rolled;
-        assertThat(rolledPool.gather()).isEmpty();
+        assertThat(rolledPool.gatherDice()).isEmpty();
     }
 
     @Test
@@ -88,7 +88,7 @@ class ImplicitDicePoolTest {
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
         RolledPool rolledPool = (RolledPool) rolled;
-        List<RolledDie> dice = rolledPool.gather();
+        List<RolledDie> dice = rolledPool.gatherDice();
         assertThat(dice).hasSize(2);
         assertThat(dice).allMatch(die -> die.getValue() >= 1 && die.getValue() <= 6);
     }

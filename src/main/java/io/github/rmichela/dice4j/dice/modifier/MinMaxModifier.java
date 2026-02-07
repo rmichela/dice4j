@@ -44,7 +44,7 @@ public class MinMaxModifier extends AbstractModifier {
     public Rolled roll(DieRoller random) {
         var rolled = inner.roll(random);
 
-        for (var die : rolled.gather()) {
+        for (var die : rolled.gatherDice()) {
             if (!die.isKept()) {
                 continue; // Skip dropped dice
             }

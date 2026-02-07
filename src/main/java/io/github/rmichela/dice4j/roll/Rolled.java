@@ -8,13 +8,15 @@ import lombok.Getter;
 public abstract class Rolled {
     private AbstractModifier modifiedBy;
 
-    public abstract List<RolledDie> gather();
+    public abstract List<RolledDie> gatherDice();
+
+    public abstract List<RolledPool> gatherPools();
 
     public void modifiedBy(AbstractModifier modifier) {
         this.modifiedBy = modifier;
     }
 
     public int total() {
-        return gather().stream().filter(RolledDie::isKept).mapToInt(RolledDie::getValue).sum();
+        return gatherDice().stream().filter(RolledDie::isKept).mapToInt(RolledDie::getValue).sum();
     }
 }

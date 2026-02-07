@@ -25,7 +25,7 @@ class RerollModifierTest {
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
         RolledPool rolledPool = (RolledPool) rolled;
-        List<RolledDie> dice = rolledPool.gather();
+        List<RolledDie> dice = rolledPool.gatherDice();
 
         assertThat(dice).hasSize(2);
         assertThat(dice.get(0).getValue()).isEqualTo(2);
@@ -47,7 +47,7 @@ class RerollModifierTest {
         Rolled rolled = modifier.roll(roller);
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
 
         assertThat(dice).hasSize(2);
         assertThat(dice.get(0).getValue()).isEqualTo(5);
@@ -69,7 +69,7 @@ class RerollModifierTest {
         Rolled rolled = modifier.roll(roller);
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
 
         assertThat(dice).hasSize(2);
         assertThat(dice.get(0).getValue()).isEqualTo(1);
@@ -90,7 +90,7 @@ class RerollModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(4);
         Rolled rolled = modifier.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
         assertThat(dice).hasSize(1);
         assertThat(dice.get(0).getValue()).isEqualTo(4);
         assertThat(dice.get(0).isKept()).isTrue();
@@ -108,7 +108,7 @@ class RerollModifierTest {
         Rolled rolled = modifier.roll(roller);
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
 
         assertThat(dice).hasSize(3);
         assertThat(dice.get(0).getValue()).isEqualTo(2);
@@ -132,7 +132,7 @@ class RerollModifierTest {
         Rolled rolled = modifier.roll(roller);
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
 
         assertThat(dice).hasSize(2);
         assertThat(dice.get(0).getValue()).isEqualTo(2);
@@ -154,7 +154,7 @@ class RerollModifierTest {
         Rolled rolled = modifier.roll(roller);
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
 
         assertThat(dice).hasSize(5); // 3 original + 2 rerolled
         assertThat(rolled.total()).isEqualTo(12); // 3 + 4 + 5
@@ -171,7 +171,7 @@ class RerollModifierTest {
         Rolled rolled = modifier.roll(roller);
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
 
         assertThat(dice).hasSize(6); // 4 original + 2 rerolled
         assertThat(rolled.total()).isEqualTo(18); // 4 + 3 + 5 + 6
@@ -188,7 +188,7 @@ class RerollModifierTest {
         Rolled rolled = modifier.roll(roller);
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
 
         assertThat(dice).hasSize(4); // 2 original + 2 rerolled
         assertThat(rolled.total()).isEqualTo(8); // 3 + 5
@@ -208,7 +208,7 @@ class RerollModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(1, 3, 5);
         Rolled rolled = reroll.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
         assertThat(dice).hasSize(3); // No reroll because 1 was dropped
         assertThat(rolled.total()).isEqualTo(8); // 3 + 5
     }
@@ -249,7 +249,7 @@ class RerollModifierTest {
         FixedSequenceRoller roller = new FixedSequenceRoller(1, 15);
         Rolled rolled = modifier.roll(roller);
 
-        List<RolledDie> dice = rolled.gather();
+        List<RolledDie> dice = rolled.gatherDice();
         assertThat(dice).hasSize(2);
         assertThat(dice.get(0).getSides()).isEqualTo(20);
         assertThat(dice.get(1).getSides()).isEqualTo(20);

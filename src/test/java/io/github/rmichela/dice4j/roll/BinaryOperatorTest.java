@@ -91,12 +91,12 @@ class BinaryOperatorTest {
     }
 
     @Test
-    void testGatherReturnsConstantDie() {
+    void testGatherDiceReturnsConstantDie() {
         RolledDie left = new RolledDie(6, 3);
         RolledDie right = new RolledDie(6, 4);
         BinaryOperator operator = new BinaryOperator(BinaryOperation.ADD, left, right);
 
-        var gathered = operator.gather();
+        var gathered = operator.gatherDice();
         assertThat(gathered).hasSize(1);
         RolledDie result = gathered.get(0);
         assertThat(result.isConstant()).isTrue();

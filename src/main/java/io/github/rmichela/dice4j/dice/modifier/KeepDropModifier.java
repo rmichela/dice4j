@@ -55,10 +55,10 @@ public class KeepDropModifier extends AbstractModifier {
         // Only reset the keep/drop status when directly modifying a dice pool. When modifiers
         // stack, they should not wipe out the work done by the inner modifiers.
         if (!(inner instanceof PoolModifier)) {
-            rolled.gather().forEach(action.clear);
+            rolled.gatherDice().forEach(action.clear);
         }
 
-        rolled.gather().stream().sorted(action.comparator).limit(qty).forEach(action.foreach);
+        rolled.gatherDice().stream().sorted(action.comparator).limit(qty).forEach(action.foreach);
 
         rolled.modifiedBy(this);
         return rolled;
