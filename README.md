@@ -5,7 +5,8 @@ A minimal-dependency Java library for parsing and evaluating dice expressions co
 ## Features
 
 - **Zero runtime dependencies** - ANTLR is used only for parsing, no external libs required at runtime
-- **Comprehensive dice notation support** - Standard dice notation (NdS), keep/drop modifiers, reroll mechanics
+- **Comprehensive dice notation support** - Standard dice notation (NdS), keep/drop modifiers, reroll mechanics, exploding dice
+- **Min/Max clamping** - Set minimum and maximum values for dice results
 - **Arithmetic expressions** - Full support for addition, subtraction, multiplication, division, and parentheses
 - **Dice pools** - Mix multiple dice types in a single expression
 - **Type-safe API** - Clean interfaces with builder patterns
@@ -183,6 +184,49 @@ Rollable noOnes = DiceExpression.evaluate("4d6rr1");         // Keep rerolling 1
 - `<` - Less than
 - `>` - Greater than
 
+#### Exploding Dice
+
+Exploding dice (also called "open-ended rolls") automatically re-roll when the maximum value is rolled, adding the new result to the total:
+
+```java
+// Explode once (x or xN)
+Rollable explodeOnce = DiceExpression.evaluate("4d6x1");     // Each die explodes once on max
+Rollable explode2 = DiceExpression.evaluate("2d10x2");       // Each die can explode up to 2 times
+
+// Explode recursively (unlimited)
+Rollable unlimited = DiceExpression.evaluate("1d6x");        // Keep exploding on max (x defaults to unlimited)
+Rollable savageWorlds = DiceExpression.evaluate("1d10x");    // Classic exploding d10
+```
+
+**How it works:**
+- When a die rolls its maximum value (e.g., 6 on a d6), it "explodes"
+- The die is rolled again and the new result is added to the pool
+- If the new die also rolls max, it explodes again (up to the explosion limit)
+- `x` or `xN` where N is the maximum number of times any die can explode
+- Without a number, `x` defaults to unlimited explosions
+
+#### Min/Max Clamping
+
+Replace dice values that fall outside a desired range:
+
+```java
+// Set minimum value (min)
+Rollable minDamage = DiceExpression.evaluate("2d6min3");     // Any roll < 3 becomes 3
+Rollable greatWeapon = DiceExpression.evaluate("2d6min2");   // Great Weapon Fighting (D&D 5e)
+
+// Set maximum value (max)
+Rollable capped = DiceExpression.evaluate("4d10max8");       // Any roll > 8 becomes 8
+
+// Combine both (clamp to range)
+Rollable range = DiceExpression.evaluate("4d10min3max8");    // All rolls between 3-8
+```
+
+**How it works:**
+- `minN` - Any die result below N is replaced with N
+- `maxN` - Any die result above N is replaced with N
+- Can be combined to create a range: rolls are clamped to [min, max]
+- Original dice remain in the pool but are marked as dropped
+
 ### Arithmetic Operations
 
 Dice expressions support full arithmetic with proper operator precedence:
@@ -255,9 +299,13 @@ Rollable doubleDamage = DiceExpression.evaluate("(1d8 + 3) * 2");
 
 ```java
 // In Savage Worlds, when you roll the max value, you roll again and add
-Rollable explodingD6 = DiceExpression.evaluate("1d6rr6");
+Rollable explodingD6 = DiceExpression.evaluate("1d6x");
 int result = explodingD6.roll().total();
 // Could roll 6, 6, 6, 3 = 21!
+
+// Multiple exploding dice
+Rollable skillRoll = DiceExpression.evaluate("2d10x");
+// Each d10 that rolls a 10 will explode independently
 ```
 
 #### Mixed Damage Types
@@ -269,6 +317,25 @@ Rollable twoHanded = DiceExpression.evaluate("1d10");
 
 // Or as a pool to roll both and compare
 Rollable versatile = DiceExpression.evaluate("{1d8, 1d10}");
+```
+
+#### Great Weapon Fighting (D&D 5e)
+
+```java
+// Great Weapon Fighting: reroll 1s and 2s once
+Rollable gwf = DiceExpression.evaluate("2d6min3");
+int damage = gwf.roll().total();
+// Any roll of 1 or 2 becomes a 3
+```
+
+#### Bounded Randomness
+
+```java
+// Ensure results stay within a specific range
+Rollable bounded = DiceExpression.evaluate("4d10min3max8");
+int result = bounded.roll().total();
+// Each die result will be between 3 and 8
+// Total will be between 12 (4×3) and 32 (4×8)
 ```
 
 ## API Reference
@@ -302,6 +369,9 @@ Rollable versatile = DiceExpression.evaluate("{1d8, 1d10}");
 | `dlN` | Drop N lowest dice | `4d6dl1` |
 | `r[op][N]` | Reroll once if condition met | `2d6r1`, `2d6r<3` |
 | `rr[op][N]` | Reroll recursively | `1d6rr6` |
+| `x[N]` | Exploding dice (reroll on max) | `1d6x`, `4d6x2` |
+| `minN` | Set minimum value (clamp low rolls) | `2d6min3` |
+| `maxN` | Set maximum value (clamp high rolls) | `4d10max8` |
 | `+` | Addition | `1d20 + 5` |
 | `-` | Subtraction or negation | `1d20 - 2`, `-1d6` |
 | `*` | Multiplication | `2d6 * 2` |
