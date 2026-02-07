@@ -68,7 +68,7 @@ Rolled result = dice.roll();
 int total = result.total();
 
 // Get individual die results
-List<RolledDie> allDice = result.gather();
+List<RolledDie> allDice = result.gatherDice();
 for (RolledDie die : allDice) {
     int value = die.getValue();
     int sides = die.getSides();
@@ -76,6 +76,58 @@ for (RolledDie die : allDice) {
 
     System.out.println("d" + sides + ": " + value +
                        (wasKept ? " (kept)" : " (dropped)"));
+}
+
+// Group dice by which modifier affected them
+List<RolledPool> pools = result.gatherPools();
+for (RolledPool pool : pools) {
+    System.out.println("Pool modified by: " +
+                       (pool.getModifiedBy() != null ?
+                        pool.getModifiedBy() : "none"));
+    for (RolledDie die : pool.gatherDice()) {
+        System.out.println("  " + die);
+    }
+}
+```
+
+### Understanding Dice Grouping
+
+When working with complex expressions involving multiple modifiers, `gatherPools()` subdivides all rolled dice into groups that were modified together:
+
+```java
+// Complex expression with multiple modifiers
+Rollable complex = DiceExpression.evaluate("2d6x + 3d8kh2");
+Rolled result = complex.roll();
+
+// gatherDice() flattens everything into individual dice
+List<RolledDie> allDice = result.gatherDice();
+// Returns ALL dice: [2d6 with exploded dice, 3d8 dice]
+
+// gatherPools() groups dice by the modifier that affected them
+List<RolledPool> pools = result.gatherPools();
+// Returns separate pools:
+// - Pool 1: dice from 2d6x (modified by explode)
+// - Pool 2: dice from 3d8kh2 (modified by keep highest)
+```
+
+**Key behavior:**
+- Pools that were **modified** by a modifier (explode, keep/drop, reroll, etc.) remain separate
+- Pools that were **not modified** are flattened together into a single pool
+- This is useful for displaying roll breakdowns or implementing custom roll visualization
+
+```java
+// Example: Display rolls grouped by modifier
+Rollable dice = DiceExpression.evaluate("{2d6x, 3d8, 1d4}kh1");
+Rolled result = dice.roll();
+
+for (RolledPool pool : result.gatherPools()) {
+    if (pool.getModifiedBy() != null) {
+        System.out.println("Modified by: " + pool.getModifiedBy());
+    } else {
+        System.out.println("Unmodified pool:");
+    }
+    System.out.println("  Dice: " + pool.gatherDice());
+    System.out.println("  Subtotal: " + pool.total());
 }
 ```
 
@@ -351,7 +403,8 @@ int result = bounded.roll().total();
 
 - **`Rolled`** - Interface for roll results
   - `int total()` - Sum of all kept dice
-  - `List<RolledDie> gather()` - Flatten to individual die results
+  - `List<RolledDie> gatherDice()` - Flatten to individual die results
+  - `List<RolledPool> gatherPools()` - Group dice into pools modified together
 
 - **`DieRoller`** - Interface for generating random values
   - `RandomRoller` - Uses `java.util.Random`
