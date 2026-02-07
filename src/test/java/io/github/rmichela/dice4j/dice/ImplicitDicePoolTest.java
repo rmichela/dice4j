@@ -65,7 +65,9 @@ class ImplicitDicePoolTest {
 
         assertThat(rolled).isInstanceOf(RolledPool.class);
         RolledPool rolledPool = (RolledPool) rolled;
-        assertThat(rolledPool.gatherDice()).extracting(RolledDie::getValue).containsExactly(2, 7, 4, 9);
+        assertThat(rolledPool.gatherDice())
+                .extracting(RolledDie::getValue)
+                .containsExactly(2, 7, 4, 9);
     }
 
     @Test

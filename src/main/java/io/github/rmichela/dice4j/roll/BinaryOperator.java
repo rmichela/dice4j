@@ -1,7 +1,6 @@
 package io.github.rmichela.dice4j.roll;
 
 import io.github.rmichela.dice4j.expression.BinaryOperation;
-
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +35,7 @@ public class BinaryOperator extends Rolled {
             }
         }
 
-        if(!loosePool.isEmpty()) {
+        if (!loosePool.isEmpty()) {
             gatheredPools.add(loosePool);
         }
         return gatheredPools;
