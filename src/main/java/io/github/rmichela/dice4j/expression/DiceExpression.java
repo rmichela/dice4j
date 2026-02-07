@@ -197,4 +197,16 @@ public final class DiceExpression extends DiceBaseVisitor<Rollable> {
         int qty = ctx.qty != null ? Integer.parseInt(ctx.qty.getText()) : ExplodeModifier.RECURSIVE;
         return new ExplodeModifier(qty);
     }
+
+    @Override
+    public Rollable visitMinimum(DiceParser.MinimumContext ctx) {
+        int min = Integer.parseInt(ctx.value.getText());
+        return MinMaxModifier.minimum(min);
+    }
+
+    @Override
+    public Rollable visitMaximum(DiceParser.MaximumContext ctx) {
+        int max = Integer.parseInt(ctx.value.getText());
+        return MinMaxModifier.maximum(max);
+    }
 }

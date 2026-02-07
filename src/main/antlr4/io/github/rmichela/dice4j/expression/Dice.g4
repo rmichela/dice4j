@@ -23,6 +23,8 @@ poolModifier
    | < assoc = right > 'r' rel = RELOP? qty = POSINT? # reroll
    | < assoc = right > 'rr' rel = RELOP? qty = POSINT? # rerollRecursive
    | < assoc = right > 'x' qty = POSINT? # explode
+   | < assoc = right > 'min' value = POSINT # minimum
+   | < assoc = right > 'max' value = POSINT # maximum
    ;
 
 POSINT
