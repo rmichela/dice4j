@@ -191,4 +191,10 @@ public final class DiceExpression extends DiceBaseVisitor<Rollable> {
         int qty = ctx.qty != null ? Integer.parseInt(ctx.qty.getText()) : 1;
         return new RerollModifier(rel, qty, true);
     }
+
+    @Override
+    public Rollable visitExplode(DiceParser.ExplodeContext ctx) {
+        int qty = ctx.qty != null ? Integer.parseInt(ctx.qty.getText()) : ExplodeModifier.RECURSIVE;
+        return new ExplodeModifier(qty);
+    }
 }

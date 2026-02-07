@@ -22,12 +22,13 @@ poolModifier
    | < assoc = right > 'dl' qty = POSINT? # dropLowest
    | < assoc = right > 'r' rel = RELOP? qty = POSINT? # reroll
    | < assoc = right > 'rr' rel = RELOP? qty = POSINT? # rerollRecursive
+   | < assoc = right > 'x' qty = POSINT? # explode
    ;
 
 POSINT
    : [1-9] [0-9]*
    ; // Positive integers (no leading zero)
-   
+
 RELOP
    : ('>' | '<' | '=')
    ;
